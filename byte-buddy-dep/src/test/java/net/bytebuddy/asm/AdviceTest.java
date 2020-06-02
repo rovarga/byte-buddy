@@ -1497,7 +1497,7 @@ public class AdviceTest {
                 .make()
                 .load(ClassLoadingStrategy.BOOTSTRAP_LOADER, ClassLoadingStrategy.Default.WRAPPER)
                 .getLoaded();
-        assertThat(type.getDeclaredMethod(FOO, String.class).invoke(type.getDeclaredConstructor().newInstance(), FOO), is((Object) FOO));
+        assertThat(type.getDeclaredMethod(FOO, String.class).invoke(type.getDeclaredConstructor().newInstance(), FOO), nullValue(Object.class));
     }
 
     @Test
@@ -1514,6 +1514,7 @@ public class AdviceTest {
                                                              Assigner assigner,
                                                              Advice.ArgumentHandler argumentHandler) {
                                 return new StackManipulation.Compound(
+                                        MethodVariableAccess.loadThis(),
                                         MethodVariableAccess.of(advice.getReturnType()).loadFrom(argumentHandler.enter()),
                                         FieldAccess.forField(instrumentedType.getDeclaredFields().filter(named(FOO)).getOnly()).write()
                                 );
@@ -3556,7 +3557,7 @@ public class AdviceTest {
 
         @Advice.OnMethodEnter(suppress = Throwable.class)
         static String enter() {
-            throw null;
+            throw new IllegalStateException();
         }
 
         public String foo(String x) {
