@@ -1877,6 +1877,15 @@ public interface Implementation extends InstrumentedType.Prepareable {
         private final ByteCodeAppender byteCodeAppender;
 
         /**
+         * Creates a new simple implementation for the given byte code appender.
+         *
+         * @param byteCodeAppender The byte code appender to apply.
+         */
+        public Simple(ByteCodeAppender byteCodeAppender) {
+            this.byteCodeAppender = byteCodeAppender;
+        }
+
+        /**
          * Creates a new simple implementation for the given byte code appenders.
          *
          * @param byteCodeAppender The byte code appenders to apply in their order of application.
@@ -1886,10 +1895,20 @@ public interface Implementation extends InstrumentedType.Prepareable {
         }
 
         /**
+         * Creates a new simple instrumentation for the given stack manipulation which is summarized in a
+         * byte code appender that defines any requested method by this manipulation.
+         *
+         * @param stackManipulation The stack manipulation to apply.
+         */
+        public Simple(StackManipulation stackManipulation) {
+            byteCodeAppender = new ByteCodeAppender.Simple(stackManipulation);
+        }
+
+        /**
          * Creates a new simple instrumentation for the given stack manipulations which are summarized in a
          * byte code appender that defines any requested method by these manipulations.
          *
-         * @param stackManipulation The stack manipulation to apply in their order of application.
+         * @param stackManipulation The stack manipulations to apply in their order of application.
          */
         public Simple(StackManipulation... stackManipulation) {
             byteCodeAppender = new ByteCodeAppender.Simple(stackManipulation);

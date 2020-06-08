@@ -169,6 +169,15 @@ public interface ByteCodeAppender {
         /**
          * Creates a new simple byte code appender which represents the given stack manipulation.
          *
+         * @param stackManipulation The stack manipulation to apply for this byte code appender.
+         */
+        public Simple(StackManipulation stackManipulation) {
+            this.stackManipulation = stackManipulation;
+        }
+
+        /**
+         * Creates a new simple byte code appender which represents the given stack manipulation.
+         *
          * @param stackManipulation The stack manipulations to apply for this byte code appender in their application order.
          */
         public Simple(StackManipulation... stackManipulation) {
